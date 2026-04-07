@@ -1,15 +1,29 @@
-$ImageUrl = "https://github.com/Willsie-Digital/SecurityAwarenessTraining/blob/main/PatrickStar.jpg"
+$ImageUrl = "https://raw.githubusercontent.com/Willsie-Digital/SecurityAwarenessTraining/refs/heads/main/PatrickStar.jpg"
 $LocalPath = "$env:USERPROFILE\PatrickStar.jpg"
 $WallpaperStyle = "Fill"
 
-# --- DOWNLOAD IMAGE ---
+
+# --- DOWNLOAD IMAGE (VALIDATED) ---
 try {
-    Invoke-WebRequest -Uri $ImageUrl -OutFile $LocalPath -UseBasicParsing
+    $response = Invoke-WebRequest `
+        -Uri $ImageUrl `
+        -UseBasicParsing `
+        -Headers @{ "Accept" = "image/*" } `
+        -ErrorAction Stop
+
+    # Validate content type
+    if ($response.Headers["Content-Type"] -notmatch "^image/") {
+        throw "Downloaded content is NOT an image. Content-Type: $($response.Headers["Content-Type"])"
+    }
+
+    # Save binary
+    [System.IO.File]::WriteAllBytes($LocalPath, $response.Content)
 }
 catch {
-    Write-Error "Failed to download wallpaper: $_"
+    Write-Error "Wallpaper download failed: $($_.Exception.Message)"
     exit 1
 }
+
 
 
 $StyleMap = @{
