@@ -1,5 +1,5 @@
 $ImageUrl = "https://github.com/Willsie-Digital/SecurityAwarenessTraining/blob/main/PatrickStar.jpg"
-$LocalPath = "$env:USERPROFILE\Pictures\PatrickStar.jpg"
+$LocalPath = "$env:USERPROFILE\PatrickStar.jpg"
 $WallpaperStyle = "Fill"
 
 # --- DOWNLOAD IMAGE ---
